@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>User Dashboard</title>
+   <link rel="icon" type="image/svg+xml" 
+        href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text x="10" y="80" font-size="80" font-weight="bold" font-family="Arial">A🧠</text></svg>' />
+
+  <style>
+    /* === Base Reset === */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #0f0f3e;
+      overflow: hidden;
+      position: relative;
+      height: 100vh;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    /* === Animated Aurora Background === */
+    body::before {
+      content: '';
+      position: absolute;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(155,89,182,0.4) 20%, transparent 70%),
+                  radial-gradient(circle, rgba(142,68,173,0.4) 20%, transparent 70%),
+                  radial-gradient(circle, rgba(231,76,60,0.3) 20%, transparent 70%);
+      background-size: 300% 300%;
+      animation: aurora 15s ease infinite;
+      z-index: 0;
+      top: -50%;
+      left: -50%;
+      filter: blur(100px);
+    }
+
+    @keyframes aurora {
+      0%, 100% { transform: translate(0, 0); }
+      50% { transform: translate(25%, 25%); }
+    }
+
+    /* === Glassmorphism Card === */
+    .card {
+      position: relative;
+      z-index: 2;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 20px;
+      backdrop-filter: blur(12px);
+      padding: 30px;
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
+      box-shadow: 0 0 30px rgba(155, 89, 182, 0.3);
+      animation: fadeIn 1.2s ease;
+    }
+
+    h2 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+      text-shadow: 0 0 10px #8e44ad, 0 0 20px #9b59b6;
+    }
+
+    a {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 14px 30px;
+      font-size: 1.1rem;
+      color: white;
+      text-decoration: none;
+      background: linear-gradient(45deg, #9b59b6, #8e44ad);
+      border-radius: 40px;
+      box-shadow: 0 0 20px rgba(155, 89, 182, 0.6);
+      transition: 0.3s ease;
+    }
+
+    a:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 30px rgba(155, 89, 182, 1);
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* === Snowfall Effect === */
+    .snow {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .snowflake {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background: white;
+      border-radius: 50%;
+      opacity: 0.7;
+      animation: fall linear infinite;
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translateY(-10px);
+      }
+      100% {
+        transform: translateY(110vh);
+      }
+    }
+
+    /* === Responsive === */
+    @media (max-width: 500px) {
+      h2 {
+        font-size: 1.6rem;
+      }
+
+      a {
+        font-size: 1rem;
+        padding: 12px 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Welcome, {{ user.username }}</h2>
+    <a href="{% url 'chat_room' room_name='super' %}">Chat with Superuser</a>
+  </div>
+
+  <!-- Snow container -->
+  <div class="snow" id="snow"></div>
+
+  <!-- JavaScript for snowfall -->
+  <script>
+    const snowContainer = document.getElementById("snow");
+
+    function createSnowflake() {
+      const snowflake = document.createElement("div");
+      snowflake.classList.add("snowflake");
+      snowflake.style.left = Math.random() * window.innerWidth + "px";
+      snowflake.style.animationDuration = Math.random() * 3 + 2 + "s";
+      snowflake.style.opacity = Math.random();
+      snowflake.style.width = snowflake.style.height = Math.random() * 6 + 4 + "px";
+      snowContainer.appendChild(snowflake);
+
+      setTimeout(() => snowflake.remove(), 5000);
+    }
+
+    setInterval(createSnowflake, 100);
+  </script>
+</body>
+</html>
